@@ -19,4 +19,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORGANIZATION: tech-challenge-pos-fiap
-          SONAR_PROJECT_KEY: tech-challenge-pos-fiap
+          SONAR_PROJECT_KEY: tech-challenge-pos-fiap_${{ github.event.repository.name }}
