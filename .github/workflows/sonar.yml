@@ -9,16 +9,38 @@ on:
 jobs:
   sonar:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Detect Java files
+        id: detect_java
+        run: |
+          if find . -name "*.java" | grep -q .; then
+            echo "has_java=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_java=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build with Maven
+        if: steps.detect_java.outputs.has_java == 'true' && hashFiles('pom.xml') != ''
+        run: mvn -B clean verify
+
+      - name: Build with Gradle
+        if: steps.detect_java.outputs.has_java == 'true' && hashFiles('build.gradle', 'build.gradle.kts') != ''
+        run: ./gradlew build
+
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        with:
-          args: >
-            -Dsonar.organization=tech-challenge-pos-fiap
-            -Dsonar.projectKey=tech-challenge-pos-fiap_${{ github.event.repository.name }}
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{ github.repository }}
+            -Dsonar.organization=tech-challenge-pos-fiap
+            -Dsonar.sources=.
+            -Dsonar.java.binaries=target/classes,build/classes
+            -Dsonar.exclusions=**/node_modules/**,**/dist/**
