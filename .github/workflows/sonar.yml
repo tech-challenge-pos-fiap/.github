@@ -33,7 +33,8 @@ jobs:
         if: steps.detect_java.outputs.has_java == 'true' && hashFiles('build.gradle', 'build.gradle.kts') != ''
         run: ./gradlew build
 
-      - name: SonarCloud Scan
+      - name: SonarCloud Scan (Java)
+        if: steps.detect_java.outputs.has_java == 'true'
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -44,3 +45,15 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.java.binaries=target/classes,build/classes
             -Dsonar.exclusions=**/node_modules/**,**/dist/**
+
+      - name: SonarCloud Scan (Non-Java)
+        if: steps.detect_java.outputs.has_java == 'false'
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{ github.repository }}
+            -Dsonar.organization=tech-challenge-pos-fiap
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/*.java,**/node_modules/**,**/dist/**
