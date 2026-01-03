@@ -18,3 +18,5 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_ORGANIZATION: https://sonarcloud.io/organizations/tech-challenge-pos-fiap
+          SONAR_PROJECT_KEY: tech-challenge-pos-fiap
