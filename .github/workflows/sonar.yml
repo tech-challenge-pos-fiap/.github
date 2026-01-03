@@ -15,8 +15,10 @@ jobs:
           fetch-depth: 0
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+        uses: SonarSource/sonarqube-scan-action@v6
+        with:
+          args: >
+            -Dsonar.organization=tech-challenge-pos-fiap
+            -Dsonar.projectKey=tech-challenge-pos-fiap_${{ github.event.repository.name }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORGANIZATION: tech-challenge-pos-fiap
-          SONAR_PROJECT_KEY: tech-challenge-pos-fiap_${{ github.event.repository.name }}
