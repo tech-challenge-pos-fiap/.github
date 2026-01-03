@@ -2,6 +2,9 @@ name: Sonar - Organization Standard
 
 on:
   workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
 
 jobs:
   sonar:
@@ -13,6 +16,5 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
-        secrets:
-        SONAR_TOKEN:
-          required: true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
