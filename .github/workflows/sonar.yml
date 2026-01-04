@@ -51,6 +51,12 @@ jobs:
           uv sync
           uv run pytest
 
+      - name: Inspect coverage
+        run: |
+          ls -la
+          ls -la app || true
+          find . -name "coverage.xml"
+
       - name: SonarCloud Scan (Java)
         if: steps.detect_java.outputs.has_java == 'true'
         uses: SonarSource/sonarcloud-github-action@v2
@@ -74,6 +80,6 @@ jobs:
           args: >
             -Dsonar.projectKey=tech-challenge-pos-fiap_${{ github.event.repository.name }}
             -Dsonar.organization=tech-challenge-pos-fiap
-            -Dsonar.sources=.
+            -Dsonar.sources=app
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/*.java
