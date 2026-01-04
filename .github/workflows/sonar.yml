@@ -45,6 +45,7 @@ jobs:
       - name: Python coverage
         if: steps.detect_python.outputs.has_python == 'true'
         run: |
+          pip install uv
           uv install
           uv pytest
 
