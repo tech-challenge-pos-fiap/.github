@@ -81,5 +81,8 @@ jobs:
             -Dsonar.projectKey=tech-challenge-pos-fiap_${{ github.event.repository.name }}
             -Dsonar.organization=tech-challenge-pos-fiap
             -Dsonar.sources=app
+            -Dsonar.tests=app/tests
+            -Dsonar.test.inclusions=**/tests/**
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.python.version=3.13
             -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/*.java
