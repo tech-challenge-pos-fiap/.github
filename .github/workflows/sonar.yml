@@ -46,8 +46,10 @@ jobs:
         if: steps.detect_python.outputs.has_python == 'true'
         run: |
           pip install uv
-          uv install
-          uv pytest
+          uv venv
+          .venv/bin/activate
+          uv sync
+          uv run pytest
 
       - name: SonarCloud Scan (Java)
         if: steps.detect_java.outputs.has_java == 'true'
