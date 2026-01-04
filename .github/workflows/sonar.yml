@@ -47,7 +47,7 @@ jobs:
         run: |
           pip install uv
           uv venv
-          .venv/bin/activate
+          source .venv/bin/activate
           uv sync
           uv run pytest
 
